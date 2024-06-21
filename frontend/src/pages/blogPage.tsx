@@ -1,8 +1,7 @@
-import {Button, Spinner} from 'flowbite-react';
+import {Spinner} from 'flowbite-react';
 import {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import axios from "../utils/axios"
-import {AxiosError} from 'axios';
 
 type postType = {
     title: string,

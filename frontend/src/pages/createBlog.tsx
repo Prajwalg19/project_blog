@@ -13,6 +13,7 @@ import {useState} from 'react';
 import {CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import {useNavigate} from 'react-router-dom';
+import {AxiosError} from 'axios';
 
 type FormData = {
     title: string;
@@ -52,7 +53,7 @@ export default function CreatePost() {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     setImageUploadProgress(progress.toFixed(0));
                 },
-                (error) => {
+                () => {
                     setImageUploadError('Image upload failed');
                     setImageUploadProgress(null);
                 },
@@ -78,8 +79,8 @@ export default function CreatePost() {
             const res = await axios.post('/blog/create', formData);
             setPublishError(null);
             navigate(`/blog/${res.data._id}`);
-        } catch (error) {
-            if (error) {
+        } catch (error: unknown) {
+            if (error instanceof AxiosError) {
                 setPublishError(error.message);
                 return;
             }
