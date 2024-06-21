@@ -2,6 +2,7 @@ import {Spinner} from 'flowbite-react';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from "../utils/axios"
+import {AxiosError} from 'axios';
 
 type postType = {
     title: string,
@@ -13,7 +14,7 @@ type postType = {
 export default function PostPage() {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    //const [error, setError] = useState(false);
     const [post, setPost] = useState<postType>({
         title: "",
         content: "",
@@ -21,7 +22,7 @@ export default function PostPage() {
         createdAt: "",
         user: ""
     });
-    const [recentPosts, setRecentPosts] = useState(null);
+    //const [recentPosts, setRecentPosts] = useState(null);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -31,15 +32,15 @@ export default function PostPage() {
                 console.log(res.data)
                 setPost(res.data);
                 setLoading(false);
-                setError(false);
+                //setError(false);
             } catch (error: unknown) {
-                if (error.response) {
-                    setError(true);
+                if (error instanceof AxiosError && error.response) {
+                    //setError(true);
                     setLoading(false);
                     return;
                 }
 
-                setError(true);
+                //setError(true);
                 setLoading(false);
             }
         };
