@@ -48,7 +48,7 @@ const Register = () => {
 
     }
     return (
-        <main className="h-screen mt-20">
+        <main className="min-h-screen mt-20">
             <div className="max-w-4xl p-3 gap-14 mx-auto flex md:flex-row flex-col md:items-center">
                 <span className="flex-1 whitespace-nowrap px-2 py-1 gap-4 flex flex-col items-center justify-center md:items-start">
                     <Link className="text-2xl gap-2 flex flex-row items-center" to="/">

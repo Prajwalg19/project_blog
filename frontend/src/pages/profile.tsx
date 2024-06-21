@@ -8,7 +8,7 @@ const Profile = () => {
 
     }
     return (
-        <main className="flex flex-col gap-14 w-full items-center mt-24 p-2">
+        <main className="min-h-screen flex flex-col gap-14 w-full items-center mt-24 p-2">
             <h1 className="text-4xl font-bold text-center">Profile</h1>
             <div className="flex justify-center w-full">
                 <div className="border-[5px] border-slate-400 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center rounded-full">

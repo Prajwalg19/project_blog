@@ -4,6 +4,8 @@ import cors from "cors";
 import express from "express"
 import morgan from "morgan";
 import authRoutes from "./routes/authRoute.js"
+import blogRoutes from "./routes/blogRoutes.js"
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -15,6 +17,7 @@ const corsConfig = {
 app.use(cors(corsConfig))
 app.use(express.json());
 app.use(morgan("dev"))
+app.use(cookieParser())
 
 const port = process.env.PORT || 4500
 const con_str = process.env.MONGO_CON_STR || ""
@@ -30,7 +33,7 @@ mongoose.connect(con_str).then(() => {
 
 
 app.use("/auth/", authRoutes);
-
+app.use('/blog', blogRoutes);
 app.use((error, req, res, next) => {
     const message = error.message || "Internal server error";
     const statusCode = error.statusCode || 500;
