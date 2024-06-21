@@ -51,7 +51,7 @@ export const login = async (req, res, next) => {
                 if (isPassword) {
                     const token = jwt.sign({id: query._id}, process.env.JWT_SEC_KEY, {expiresIn: "2d"})
                     const {password, ...rest} = query._doc
-                    res.cookie("my_cookie", token, {httpOnly: true}).status(200).json(rest)
+                    res.cookie("my_cookie", token, {httpOnly: true, sameSite: 'None', secure: true, partitioned: true}).status(200).json(rest)
 
                 } else {
                     res.status(401).json({message: "Password is incorrect"})
@@ -92,12 +92,12 @@ export const Oauth = async (req, res, next) => {
             const userDoc = await response.save();
             const {password: pass, ...rest} = userDoc._doc;
             const token = jwt.sign({id: userDoc._id}, process.env.JWT_SEC_KEY, {expiresIn: "2d"})
-            res.cookie("my_cookie", token, {httpOnly: true}).status(201).json(rest);
+            res.cookie("my_cookie", token, {httpOnly: true, sameSite: 'None', secure: true, partitioned: true}).status(201).json(rest);
         }
         else {
             const {password, ...rest} = query._doc;
             const token = jwt.sign({id: query._id}, process.env.JWT_SEC_KEY, {expiresIn: "2d"});
-            res.cookie("my_cookie", token, {httpOnly: true}).status(200).json(rest);
+            res.cookie("my_cookie", token, {httpOnly: true, sameSite: 'None', secure: true, partitioned: true}).status(200).json(rest);
         }
 
     } catch (e) {
