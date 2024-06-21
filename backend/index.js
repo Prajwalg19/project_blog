@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const corsConfig = {
     credentials: true,
-    origin: ["http://localhost:5173"]
+    origin: ["http://localhost:5173", "https://project-blog-black.vercel.app"]
 }
 
 app.use(cors(corsConfig))
