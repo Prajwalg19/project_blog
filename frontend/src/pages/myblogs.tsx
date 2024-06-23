@@ -41,15 +41,24 @@ const Allblogs = () => {
                 </div>
 
             )
-            : (
-                <div className="mt-10 min-h-screen grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
-                    {allPosts.map((item) => (
-                        <BlogCard key={item._id} post={item} />
-                    ))
-                    }
-                </div >
+            :
+            allPosts.length == 0 ? (
+                <div className="min-h-screen text-3xl font-semibold flex w-full justify-center items-center">User has posted no blogs</div >
+            ) :
+                (
+                    <div>
+                        <h1 className='text-center text-3xl my-7 font-semibold'>My Blogs</h1>
+                        <div className="mt-10 min-h-screen grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
+                            {allPosts.map((item) => (
+                                <BlogCard key={item._id} post={item} />
+                            ))
+                            }
+                        </div >
 
-            )
+                    </div >
+
+                )
+
     );
 };
 

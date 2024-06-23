@@ -5,7 +5,7 @@ const ThemeProvider = ({children}: {children: React.ReactNode}) => {
     const theme = useSelector((store: RootState) => store.theme.themeState)
     return (
         <div className={theme}>
-            <div className="dark:text-slate-100 text-black dark:bg-black">
+            <div className="dark:text-slate-100 text-black dark:bg-gray-950 ">
                 {children}
             </div>
         </div>

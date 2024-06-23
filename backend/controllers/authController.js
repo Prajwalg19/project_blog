@@ -3,6 +3,7 @@ import bcryptjs from "bcrypt"
 import customError from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv"
+import Blog from "../models/blogModel.js";
 dotenv.config();
 
 
@@ -102,6 +103,18 @@ export const Oauth = async (req, res, next) => {
 
     } catch (e) {
 
+    }
+}
+export const deleteUser = async (req, res, next) => {
+    try {
+        const response = await userModel.findByIdAndDelete(req.params.id)
+        if (!response) {
+            return next(customError("user doesn't exists"), 404);
+        }
+        await Blog.deleteMany({userId: req.params.id})
+        res.status(200).json({message: "deleted user successfully"})
+    } catch (e) {
+        next(e)
     }
 }
 

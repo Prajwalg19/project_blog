@@ -22,9 +22,22 @@ type FormData = {
 }
 
 export default function CreatePost() {
+    const toolbarOptions = {
+        toolbar: [
+            [{font: []}],
+            [{header: [1, 2, 3]}],
+            ["bold", "italic", "underline", "strike"],
+            [{color: []}, {background: []}],
+            [{script: "sub"}, {script: "super"}],
+            ["blockquote", "code-block"],
+            [{list: "ordered"}, {list: "bullet"}],
+        ],
+    };
+
     const [file, setFile] = useState<File | null>(null);
     const [imageUploadProgress, setImageUploadProgress] = useState<string | null>(null);
     const [imageUploadError, setImageUploadError] = useState<string | null>(null);
+    const [imageUploadSuccess, setImageUploadSuccess] = useState<true | false>(false);
     const [formData, setFormData] = useState<FormData>({
         title: '',
         image: '',
@@ -61,20 +74,22 @@ export default function CreatePost() {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setImageUploadProgress(null);
                         setImageUploadError(null);
+                        setImageUploadSuccess(true);
                         setFormData((prev) => ({...prev, image: downloadURL}));
                     });
                 }
             );
         } catch (error) {
             setImageUploadError('Image upload failed');
+            setImageUploadSuccess(false);
             setImageUploadProgress(null);
             console.error(error);
         }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log(formData)
         e.preventDefault();
+        if (!imageUploadSuccess) return setImageUploadError("Image required");
         try {
             const res = await axios.post('/blog/create', formData);
             setPublishError(null);
@@ -104,6 +119,7 @@ export default function CreatePost() {
                         id='title'
                         className='flex-1'
                         onChange={(e) => setFormData({...formData, title: e.target.value})}
+
                     />
                 </div>
                 <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
@@ -111,6 +127,7 @@ export default function CreatePost() {
                         type="file"
                         accept="image/*"
                         onChange={(e) => {e.target.files && setFile(e.target.files[0])}}
+                        required
                     />
                     <Button
                         type='button'
@@ -145,6 +162,7 @@ export default function CreatePost() {
                     placeholder='Write something...'
                     className='h-72 mb-12'
                     onChange={(value) => setFormData({...formData, content: value})}
+                    modules={toolbarOptions}
                 />
                 <Button type='submit' gradientDuoTone='purpleToPink'>
                     Publish

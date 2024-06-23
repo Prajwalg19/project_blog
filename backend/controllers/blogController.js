@@ -29,14 +29,27 @@ export const getBlog = async (req, res, next) => {
 }
 
 export const allBlogs = async (req, res, next) => {
-
     try {
-        const allBlogs = await BlogModel.find();
-        res.json(allBlogs)
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
 
+        if (page == 0) {
+            const blogs = await BlogModel.find().sort({createdAt: -1}).skip(page).limit(limit);
+            let total = await BlogModel.find();
+            total = total.length;
+            res.json({
+                total,
+                blogs
+            });
+        } else {
+            const blogs = await BlogModel.find().sort({createdAt: -1}).skip(page).limit(limit);
+            res.json({
+                blogs
+            });
+
+        }
     } catch (e) {
         next(e);
-
     }
 }
 export const myblogs = async (req, res, next) => {

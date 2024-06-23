@@ -1,10 +1,28 @@
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import {Button, TextInput} from "flowbite-react";
+import axios from "../utils/axios"
+import {logOut} from "@/redux/slices/userSlice";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const Profile = () => {
     const {currentUser} = useSelector((store: RootState) => store.user);
-    function handleSubmit() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    async function handleDelete() {
+        try {
+            if (currentUser) {
+                const response = await axios.delete(`/auth/delete/${currentUser._id}`)
+                if (response.status == 200) {
+                    dispatch(logOut());
+                }
+
+            }
+
+        } catch (e: unknown) {
+
+        }
 
     }
     return (
@@ -16,17 +34,13 @@ const Profile = () => {
                 </div>
             </div>
 
-            <form className="flex flex-col gap-5 max-w-2xl w-full" onSubmit={handleSubmit}>
-                <TextInput type="text" value={currentUser?.userName} sizing="lg" placeholder="Username" />
-                <TextInput type="email" value={currentUser?.email} sizing="lg" placeholder="Email" />
-                <TextInput type="text" sizing="lg" placeholder="Password" />
-                <Button gradientDuoTone="greenToBlue" size="lg" outline>Update</Button>
-            </form>
-            <span className="flex flex-row items-center justify-between w-full max-w-2xl text-red-600 -mt-5">
-                <button>Delete Account</button>
-                <button>Sign out</button>
-            </span>
-        </main>
+            <span className="flex flex-col gap-5 max-w-2xl w-full" >
+                <TextInput type="text" defaultValue={currentUser?.userName} sizing="lg" placeholder="Username" />
+                <TextInput type="email" defaultValue={currentUser?.email} sizing="lg" placeholder="Email" />
+                <Button gradientDuoTone="greenToBlue" size="lg" outline onClick={() => {dispatch(logOut()); navigate("/login")}}>Sign Out</Button>
+                <Button gradientMonochrome="failure" size="lg" outline onClick={handleDelete}>Delete Account</Button>
+            </span >
+        </main >
     );
 };
 
