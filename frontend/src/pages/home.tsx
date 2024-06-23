@@ -43,10 +43,14 @@ const Home = () => {
                             <Spinner size='xl' />
                         </div>
                     ) : (
-                        <div className="mt-10 min-h-screen grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-4">
-                            {allPosts.map((item) => (
-                                <BlogCard key={item._id} post={item} />
-                            ))}
+                        <div className="flex mt-10 flex-col gap-3 justify-center">
+                            <div className="font-semibold">Recent blogs</div>
+                            <div className="min-h-screen grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-4">
+                                {allPosts.map((item) => (
+                                    <BlogCard key={item._id} post={item} />
+                                ))}
+                            </div>
+
                         </div>
                     )
                 }
