@@ -26,7 +26,9 @@ const Header = () => {
 
             <div className="md:order-2 flex flex-row items-center gap-10 text-center">
                 <button className=" border border-black/10 bg-slate-50 dark:bg-gray-950 dark:border-slate-600 md:px-6 px-4 py-3 rounded-full" onClick={() => dispatch(changeTheme())}>{currentTheme == "dark" ? <FaMoon className="text-white" /> : (<FaSun />)}</button>
-                <Link to="/createblog" className="hidden md:block border border-black/10 bg-slate-50 dark:bg-black dark:border-slate-600 px-4 py-2 rounded-full">Create</Link>
+                {
+                    currentUser && <Link to="/createblog" className="hidden md:block border border-black/10 bg-slate-50 dark:bg-black dark:border-slate-600 px-4 py-2 rounded-full">Create</Link>
+                }
                 {currentUser ? (
                     <Dropdown arrowIcon={false} className="dark:bg-gray-950 dark:white " inline label={ // inline to make the image as the source for Dropdown
                         <Avatar img={currentUser.userPfp} rounded bordered />

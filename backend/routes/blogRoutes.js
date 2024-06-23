@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/create', verifyToken, createBlog)
 router.get('/getblog/', getBlog)
 router.get('/allblogs/', allBlogs)
-router.get('/myblogs/', myblogs)
+router.get('/myblogs/', verifyToken, myblogs)
 
 
 export default router;
