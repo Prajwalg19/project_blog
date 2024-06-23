@@ -29,11 +29,8 @@ const OAuth = () => {
             setLoading(false);
             navigate("/");
         } catch (e: unknown) {
-            if (e instanceof AxiosError) {
-                if (e.status) {
-
-                }
-
+            if (e instanceof AxiosError && e.response) {
+                toast.error(e.response.data)
             } else {
                 toast.error("Something went wrong");
             }

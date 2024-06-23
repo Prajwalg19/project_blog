@@ -102,6 +102,7 @@ export const Oauth = async (req, res, next) => {
         }
 
     } catch (e) {
+        next(e)
 
     }
 }

@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "../utils/axios";
 import BlogCard from "../components/blogCard";
 import {Spinner} from "flowbite-react";
+import toast from "react-hot-toast";
 
 type BlogType = {
     _id: string;
@@ -29,7 +30,7 @@ const AllBlogs = () => {
                 setPosts(5);
                 setLoading(false);
             } catch (e) {
-                console.error("Failed to fetch blogs", e);
+                toast.error("Something went wrong");
                 setLoading(false);
             }
         }
@@ -44,7 +45,7 @@ const AllBlogs = () => {
             setPosts(posts + 2);
             setLoadingMore(false);
         } catch (e) {
-            console.error("Failed to load more blogs", e);
+            toast.error("Something went wrong");
             setLoadingMore(false);
         }
     };

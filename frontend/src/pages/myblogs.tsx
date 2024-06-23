@@ -4,6 +4,7 @@ import BlogCard from "../components/blogCard";
 import {Spinner} from "flowbite-react"
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
+import toast from "react-hot-toast";
 type BlogType = {
     _id: string;
     title: string;
@@ -26,7 +27,7 @@ const Allblogs = () => {
                 setAllPosts(response.data);
                 setLoading(false)
             } catch (e) {
-                console.error("Failed to fetch blogs", e);
+                toast.error("Failed to fetch blogs")
                 setLoading(false)
             }
         }

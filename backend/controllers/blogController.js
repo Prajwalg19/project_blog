@@ -57,6 +57,7 @@ export const myblogs = async (req, res, next) => {
         const myblogs = await BlogModel.find({userId: req.query.id})
         res.json(myblogs)
     } catch (e) {
+        next(e);
 
     }
 }
@@ -117,25 +118,25 @@ export const deletepost = async (req, res, next) => {
     }
 };
 
-export const updatepost = async (req, res, next) => {
-    if (req.user.id !== req.params.userId) {
-        return next(customError('You are not allowed to update this post', 403));
-    }
-    try {
-        const updatedPost = await BlogModel.findByIdAndUpdate(
-            req.params.postId,
-            {
-                $set: {
-                    title: req.body.title,
-                    content: req.body.content,
-                    category: req.body.category,
-                    image: req.body.image,
-                },
-            },
-            {new: true}
-        );
-        res.status(200).json(updatedPost);
-    } catch (error) {
-        next(error);
-    }
-};
+//export const updatepost = async (req, res, next) => {
+//    if (req.user.id !== req.params.userId) {
+//        return next(customError('You are not allowed to update this post', 403));
+//    }
+//    try {
+//        const updatedPost = await BlogModel.findByIdAndUpdate(
+//            req.params.postId,
+//            {
+//                $set: {
+//                    title: req.body.title,
+//                    content: req.body.content,
+//                    category: req.body.category,
+//                    image: req.body.image,
+//                },
+//            },
+//            {new: true}
+//        );
+//        res.status(200).json(updatedPost);
+//    } catch (error) {
+//        next(error);
+//    }
+//};

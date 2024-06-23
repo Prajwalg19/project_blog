@@ -5,6 +5,7 @@ import axios from "../utils/axios"
 import {logOut} from "@/redux/slices/userSlice";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Profile = () => {
     const {currentUser} = useSelector((store: RootState) => store.user);
@@ -16,12 +17,11 @@ const Profile = () => {
                 const response = await axios.delete(`/auth/delete/${currentUser._id}`)
                 if (response.status == 200) {
                     dispatch(logOut());
+                    toast.success("Account deleted successfully");
                 }
-
             }
-
         } catch (e: unknown) {
-
+            toast.error("Something went wrong");
         }
 
     }

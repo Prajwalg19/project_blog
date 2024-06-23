@@ -98,11 +98,10 @@ export default function CreatePost() {
             if (error instanceof AxiosError) {
                 setPublishError(error.message);
                 return;
+            } else {
+                setPublishError("Something went wrong");
+                return;
             }
-
-
-            setPublishError('Something went wrong');
-            console.error(error);
         }
     };
 

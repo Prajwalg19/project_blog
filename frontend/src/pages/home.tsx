@@ -3,6 +3,7 @@ import axios from "../utils/axios";
 import BlogCard from "../components/blogCard";
 import {Spinner} from "flowbite-react";
 import {Link} from "react-router-dom";
+import toast from "react-hot-toast";
 
 type BlogType = {
     _id: string;
@@ -24,7 +25,7 @@ const Home = () => {
                 setAllPosts(response.data.blogs);
                 setLoading(false);
             } catch (e) {
-                console.error("Failed to fetch blogs", e);
+                toast.error("Something went wrong")
                 setLoading(false);
             }
         }

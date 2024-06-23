@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from "../utils/axios"
 import {AxiosError} from 'axios';
+import toast from 'react-hot-toast';
 
 type postType = {
     title: string,
@@ -14,7 +15,6 @@ type postType = {
 export default function PostPage() {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
-    //const [error, setError] = useState(false);
     const [post, setPost] = useState<postType>({
         title: "",
         content: "",
@@ -22,7 +22,6 @@ export default function PostPage() {
         createdAt: "",
         user: ""
     });
-    //const [recentPosts, setRecentPosts] = useState(null);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -31,37 +30,18 @@ export default function PostPage() {
                 const res = await axios.get(`/blog/getblog?id=${id}`);
                 setPost(res.data);
                 setLoading(false);
-                //setError(false);
             } catch (error: unknown) {
                 if (error instanceof AxiosError && error.response) {
-                    //setError(true);
+                    toast.error(error.response.data);
                     setLoading(false);
                     return;
                 }
-
-                //setError(true);
                 setLoading(false);
             }
         };
         fetchPost();
     }, [id]);
 
-    //useEffect(() => {
-    //    try {
-    //        const fetchRecentPosts = async () => {
-    //            const res = await axios.get(`/post/getposts?limit=3`);
-    //            if (res.data) {
-    //                setRecentPosts(res.data);
-    //            }
-    //        };
-    //        fetchRecentPosts();
-    //    } catch (error: unknown) {
-    //        if (error instanceof AxiosError && error.response) {
-    //            console.log(error.response.data);
-    //        }
-    //    }
-    //}, []);
-    //
     if (loading)
         return (
             <div className='flex justify-center items-center min-h-screen'>
