@@ -1,27 +1,32 @@
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
-import {Button, TextInput} from "flowbite-react";
+import {Button, Spinner, TextInput} from "flowbite-react";
 import axios from "../utils/axios"
 import {logOut} from "@/redux/slices/userSlice";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import {useState} from "react";
 
 const Profile = () => {
     const {currentUser} = useSelector((store: RootState) => store.user);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     async function handleDelete() {
+        setLoading(true)
         try {
             if (currentUser) {
                 const response = await axios.delete(`/auth/delete/${currentUser._id}`)
                 if (response.status == 200) {
                     dispatch(logOut());
                     toast.success("Account deleted successfully");
+                    setLoading(false)
                 }
             }
         } catch (e: unknown) {
             toast.error("Something went wrong");
+            setLoading(false)
         }
 
     }
@@ -38,7 +43,10 @@ const Profile = () => {
                 <TextInput type="text" defaultValue={currentUser?.userName} sizing="lg" placeholder="Username" />
                 <TextInput type="email" defaultValue={currentUser?.email} sizing="lg" placeholder="Email" />
                 <Button gradientDuoTone="greenToBlue" size="lg" outline onClick={() => {dispatch(logOut()); navigate("/login")}}>Sign Out</Button>
-                <Button gradientMonochrome="failure" size="lg" outline onClick={handleDelete}>Delete Account</Button>
+                <Button gradientMonochrome="failure" onClick={() => handleDelete()} type="button" outline size="lg" disabled={loading}>
+                    {!loading ? (<div>Delete Account</div>) : <><Spinner size="sm" /><span className="pl-3">Deleting...</span></>}
+                </Button>
+
             </span >
         </main >
     );
