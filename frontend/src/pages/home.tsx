@@ -16,17 +16,12 @@ const Home = () => {
 
     const [allPosts, setAllPosts] = useState<BlogType[]>([]);
     const [loading, setLoading] = useState<true | false>(true);
-    const [totalPosts, setTotalPosts] = useState(0);
-    const [posts, setPosts] = useState(0);
-    const [loadingMore, setLoadingMore] = useState<true | false>(false);
     useEffect(() => {
         async function fetchBlogs() {
             setLoading(true);
             try {
                 const response = await axios.get(`/blog/allblogs?page=0&limit=5`);
                 setAllPosts(response.data.blogs);
-                setTotalPosts(response.data.total);
-                setPosts(5);
                 setLoading(false);
             } catch (e) {
                 console.error("Failed to fetch blogs", e);
