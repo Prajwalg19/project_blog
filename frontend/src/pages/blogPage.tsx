@@ -29,7 +29,6 @@ export default function PostPage() {
             try {
                 setLoading(true);
                 const res = await axios.get(`/blog/getblog?id=${id}`);
-                console.log(res.data)
                 setPost(res.data);
                 setLoading(false);
                 //setError(false);

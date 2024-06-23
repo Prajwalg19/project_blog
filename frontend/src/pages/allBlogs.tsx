@@ -64,7 +64,7 @@ const AllBlogs = () => {
                     {allPosts.length < totalPosts && (
                         <div className='flex w-full justify-center items-center mt-10'>
                             <button
-                                className="px-4 py-2 bg-blue-800 text-white rounded"
+                                className="border flex justify-center items-center self-center p-2 mb-10 rounded-md w-32 border-cyan-700"
                                 onClick={loadMoreBlogs}
                                 disabled={loadingMore}
                             >

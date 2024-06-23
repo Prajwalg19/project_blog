@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "../utils/axios";
 import BlogCard from "../components/blogCard";
 import {Spinner} from "flowbite-react";
+import {Link} from "react-router-dom";
 
 type BlogType = {
     _id: string;
@@ -13,7 +14,6 @@ type BlogType = {
 };
 
 const Home = () => {
-
     const [allPosts, setAllPosts] = useState<BlogType[]>([]);
     const [loading, setLoading] = useState<true | false>(true);
     useEffect(() => {
@@ -51,6 +51,9 @@ const Home = () => {
                                 ))}
                             </div>
 
+                            <Link to="/blogs" className="border flex justify-center items-center self-center p-2 mb-10 rounded-md w-32 border-cyan-700"><div>
+                                View more
+                            </div></Link>
                         </div>
                     )
                 }
