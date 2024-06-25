@@ -95,8 +95,8 @@ export default function CreatePost() {
             setPublishError(null);
             navigate(`/blog/${res.data._id}`);
         } catch (error: unknown) {
-            if (error instanceof AxiosError) {
-                setPublishError(error.message);
+            if (error instanceof AxiosError && error.response) {
+                setPublishError(error.response.data);
                 return;
             } else {
                 setPublishError("Something went wrong");
@@ -125,6 +125,7 @@ export default function CreatePost() {
                     <input
                         type="file"
                         accept="image/*"
+                        multiple={false}
                         onChange={(e) => {e.target.files && setFile(e.target.files[0])}}
                         required
                     />

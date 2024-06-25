@@ -39,7 +39,7 @@ const Login = () => {
                     toast.error("All fields are required");
                 } else if (e.response?.status == 401) {
                     toast.error(e.response.data.message)
-                } else if (e.response?.status == 404) {
+                } else if (e.response?.status == 403) {
                     toast.error(e.response.data.message)
                 }
             } else {
