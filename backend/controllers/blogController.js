@@ -20,8 +20,15 @@ export const createBlog = async (req, res, next) => {
 };
 export const getBlog = async (req, res, next) => {
     try {
+        if (!req.query.id) {
+            return next(customError("Page not found", 404))
+        }
         const blog = await BlogModel.findById(req.query.id);
+        if (!blog) {
+            return next(customError("Page not found", 404))
+        }
         const user = await userModel.findById(blog.userId)
+
         res.json({...blog._doc, user: user.userName});
     } catch (e) {
         next(e);
