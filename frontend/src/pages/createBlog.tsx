@@ -21,7 +21,7 @@ type FormData = {
     content: string;
 }
 
-export default function CreatePost() {
+export default function CreateBlog() {
     const toolbarOptions = {
         toolbar: [
             [{font: []}],
@@ -90,16 +90,24 @@ export default function CreatePost() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!imageUploadSuccess) return setImageUploadError("Image required");
+        if (formData.title.length < 5 || formData.content.replace(/<\/?[^>]+(>|$)/g, "").length < 10)
+            return setPublishError("Title or content is too short")
         try {
             const res = await axios.post('/blog/create', formData);
             setPublishError(null);
             navigate(`/blog/${res.data._id}`);
         } catch (error: unknown) {
             if (error instanceof AxiosError && error.response) {
-                setPublishError(error.response.data);
-                return;
+                if (error.response.status == 403) {
+                    return setPublishError("Forbidden")
+                }
+                else if (error.response.status == 401) {
+                    return setPublishError("UnAuthorized")
+                } else {
+                    return setPublishError("Something went wrong")
+                }
             } else {
-                setPublishError("Something went wrong");
+                setPublishError("Internal server error");
                 return;
             }
         }
